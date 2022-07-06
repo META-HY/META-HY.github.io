@@ -25,6 +25,96 @@
 		}
 	},
 	"1a3b": function(t, e, n) {},
+	2048 : function(t, e, n) {
+		"use strict";
+		n.r(e);
+		var c = n("7a23"),
+		r = {
+			id: "comments"
+		};
+		function a(t, e, n, a, i, o) {
+			var u = Object(c["I"])("Breadcrumbs"),
+			l = Object(c["I"])("Comment"),
+			s = Object(c["I"])("PageContainer");
+			return Object(c["A"])(),
+			Object(c["g"])("div", null, [Object(c["j"])(u, {
+				current: t.pageTitle
+			},
+			null, 8, ["current"]), Object(c["j"])(s, {
+				post: t.pageData,
+				title: t.pageTitle
+			},
+			{
+			default:
+				Object(c["S"])((function() {
+					return [Object(c["j"])("div", r, [Object(c["j"])(l, {
+						title: t.pageData.title,
+						body: t.pageData.text,
+						uid: t.pageData.uid
+					},
+					null, 8, ["title", "body", "uid"])])]
+				})),
+				_: 1
+			},
+			8, ["post", "title"])])
+		}
+		n("b0c0");
+		var i = n("ced1"),
+		o = n("d8ac"),
+		u = n("47e2"),
+		l = n("6c02"),
+		s = n("8578"),
+		b = n("f2fb"),
+		p = n("5350"),
+		f = n("b6c6"),
+		d = n("4ea3"),
+		g = Object(c["k"])({
+			name: "Page",
+			components: {
+				PageContainer: p["a"],
+				Breadcrumbs: f["a"],
+				Comment: d["a"]
+			},
+			setup: function() {
+				var t = Object(i["a"])(),
+				e = Object(s["a"])(),
+				n = Object(b["a"])(),
+				r = Object(c["F"])(new o["a"]),
+				a = Object(l["c"])(),
+				p = Object(u["b"])(),
+				f = p.t,
+				d = Object(c["F"])(),
+				g = function() {
+					t.fetchArticle(String(a.params.slug)).then((function(t) {
+						r.value = t,
+						d.value = r.value.title,
+						j(e.locale)
+					}))
+				},
+				j = function(t) {
+					var c = "cn" === t ? "cn": "en",
+					r = e.themeConfig.menu.menus[String(a.params.slug)];
+					d.value = r.i18n && r.i18n[c] || r.name,
+					n.setTitle(d.value)
+				};
+				return Object(c["R"])((function() {
+					return e.locale
+				}), (function(t) {
+					t && j(t)
+				})),
+				Object(c["u"])(g),
+				{
+					pageTitle: Object(c["e"])((function() {
+						return d.value
+					})),
+					pageData: r,
+					t: f
+				}
+			}
+		});
+		g.render = a;
+		e["default"] = g
+	},
 	3410 : function(t, e, n) {
 		var c = n("23e7"),
 		r = n("d039"),
@@ -99,6 +189,115 @@
 				return o(d) ? d: s
 			}
 		})
+	},
+	"4ea3": function(t, e, n) {
+		"use strict";
+		var c = n("7a23"),
+		r = {
+			class: "\n      bg-ob-deep-800\n      p-4\n      mt-8\n      lg:px-14 lg:py-10\n      rounded-2xl\n      shadow-xl\n      mb-8\n      lg:mb-0\n    "
+		},
+		a = Object(c["j"])("div", {
+			id: "gitalk-container"
+		},
+		null, -1),
+		i = Object(c["j"])("div", {
+			id: "vcomments"
+		},
+		null, -1);
+		function o(t, e, n, o, u, l) {
+			var s = Object(c["I"])("SubTitle");
+			return Object(c["A"])(),
+			Object(c["g"])("div", r, [Object(c["j"])(s, {
+				title: "titles.comment"
+			},
+			null, 8, ["title"]), a, i])
+		}
+		n("99af");
+		var u = n("8578"),
+		l = n("d5a6"),
+		s = n("41ba"),
+		b = Object(c["k"])({
+			name: "ObComment",
+			props: {
+				title: {
+					type: String,
+				default:
+					""
+				},
+				body: {
+					type: String,
+				default:
+					""
+				},
+				uid: {
+					type: String,
+				default:
+					""
+				}
+			},
+			components: {
+				SubTitle: l["a"]
+			},
+			setup: function(t) {
+				var e = Object(c["N"])(t).title,
+				n = Object(c["N"])(t).body,
+				r = Object(c["N"])(t).uid,
+				a = Object(u["a"])(),
+				i = Object(s["a"])(),
+				o = function(t, e, n) {
+					var c = t && "" !== t ? t: "",
+					r = e && "" !== e ? "".concat(window.location.href, " \n ").concat(e) : window.location.href,
+					o = "pathname" === a.themeConfig.plugins.gitalk.id ? window.location.pathname: n;
+					if (i.setCache({
+						title: t,
+						body: e,
+						uid: n
+					}), a.configReady) if (a.themeConfig.plugins.gitalk.enable) {
+						var u = "" === a.themeConfig.plugins.gitalk.proxy ? "https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token": a.themeConfig.plugins.gitalk.proxy,
+						l = new Gitalk({
+							clientID: a.themeConfig.plugins.gitalk.clientID,
+							clientSecret: a.themeConfig.plugins.gitalk.clientSecret,
+							repo: a.themeConfig.plugins.gitalk.repo,
+							owner: a.themeConfig.plugins.gitalk.owner,
+							admin: a.themeConfig.plugins.gitalk.admin,
+							id: o,
+							language: a.themeConfig.plugins.gitalk.language,
+							distractionFreeMode: !0,
+							title: c,
+							body: r,
+							proxy: u
+						});
+						l.render("gitalk-container")
+					} else a.themeConfig.plugins.valine.enable && new Valine({
+						el: "#vcomments",
+						appId: a.themeConfig.plugins.valine.app_id,
+						appKey: a.themeConfig.plugins.valine.app_key,
+						avatar: a.themeConfig.plugins.valine.avatar,
+						placeholder: a.themeConfig.plugins.valine.placeholder,
+						visitor: a.themeConfig.plugins.valine.visitor,
+						lang: a.themeConfig.plugins.valine.lang,
+						meta: a.themeConfig.plugins.valine.meta,
+						requiredFields: a.themeConfig.plugins.valine.requiredFields,
+						avatarForce: a.themeConfig.plugins.valine.avatarForce,
+						path: window.location.pathname
+					})
+				};
+				Object(c["R"])((function() {
+					return a.configReady
+				}), (function(t, e) {
+					if (!e && t) {
+						var n = i.cachePost;
+						o(n.title, n.body, n.uid)
+					}
+				})),
+				Object(c["x"])((function() {
+					o(e.value, n.value, r.value)
+				}))
+			}
+		});
+		n("7db3");
+		b.render = o;
+		e["a"] = b
 	},
 	5350 : function(t, e, n) {
 		"use strict";
@@ -347,4 +546,98 @@
 			}
 		})
 	},
+	d8ac: function(t, e, n) {
+		"use strict";
+		n.d(e, "a", (function() {
+			return g
+		}));
+		var c = n("ade3"),
+		r = n("d4ec");
+		function a(t) {
+			if (void 0 === t) throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+			return t
+		}
+		function i(t, e) {
+			return i = Object.setPrototypeOf ||
+			function(t, e) {
+				return t.__proto__ = e,
+				t
+			},
+			i(t, e)
+		}
+		function o(t, e) {
+			if ("function" !== typeof e && null !== e) throw new TypeError("Super expression must either be null or a function");
+			t.prototype = Object.create(e && e.prototype, {
+				constructor: {
+					value: t,
+					writable: !0,
+					configurable: !0
+				}
+			}),
+			e && i(t, e)
+		}
+		n("4ae1"),
+		n("3410");
+		function u(t) {
+			return u = Object.setPrototypeOf ? Object.getPrototypeOf: function(t) {
+				return t.__proto__ || Object.getPrototypeOf(t)
+			},
+			u(t)
+		}
+		function l() {
+			if ("undefined" === typeof Reflect || !Reflect.construct) return ! 1;
+			if (Reflect.construct.sham) return ! 1;
+			if ("function" === typeof Proxy) return ! 0;
+			try {
+				return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], (function() {}))),
+				!0
+			} catch(t) {
+				return ! 1
+			}
+		}
+		var s = n("7037"),
+		b = n.n(s);
+		function p(t, e) {
+			return ! e || "object" !== b()(e) && "function" !== typeof e ? a(t) : e
+		}
+		function f(t) {
+			var e = l();
+			return function() {
+				var n, c = u(t);
+				if (e) {
+					var r = u(this).constructor;
+					n = Reflect.construct(c, arguments, r)
+				} else n = c.apply(this, arguments);
+				return p(this, n)
+			}
+		}
+		n("b64b");
+		var d = n("749c"),
+		g = (d["e"],
+		function t(e) {
+			if (Object(r["a"])(this, t), this.title = "", this.uid = "", this.date = {
+				month: "",
+				day: 0,
+				year: 0
+			},
+			this.updated = "", this.comments = !1, this.path = "", this.covers = null, this.excerpt = null, this.content = "", this.count_time = {},
+			this.toc = "", e) for (var n = 0,
+			a = Object.keys(this); n < a.length; n++) {
+				var i = a[n];
+				if (Object.prototype.hasOwnProperty.call(e, i)) {
+					if ("date" === i) {
+						var o = new Date(e[i]),
+						u = "settings.months[".concat(o.getMonth(), "]");
+						e[i] = Object.create({
+							month: u,
+							day: o.getUTCDate(),
+							year: o.getUTCFullYear()
+						})
+					}
+					Object.assign(this, Object(c["a"])({},
+					i, e[i]))
+				}
+			}
+		})
+	}
 }]);
